@@ -50,7 +50,7 @@ public class MyHashMap<K,V> {
 
                             Entry currentN = array[id];
                             for(int j = 0; j < i; j++) {
-                                if(j == i - 1) {
+                                if(j == (i - 1)) {
                                     currentN.next = current;
                                 }
                                 currentN = currentN.next;
@@ -124,30 +124,6 @@ public class MyHashMap<K,V> {
     }
 
 
-//    private Entry[] transfer(int newLength) {
-//        Entry[] newArray = new Entry[newLength];
-//        for (Entry e : array) {
-//            if (e != null) {
-//                if (e.key == null) {
-//                    newArray[0] = e;
-//                } else {
-//                    int newId = countId(e.hash, newLength);
-//
-//                    rewriteValueInNewArr(newArray, newId, e);
-//                }
-//                Entry current = e;
-//                while (current.next != null) {
-//                    int newId = countId(current.next.hash, newLength);
-//
-//                    rewriteValueInNewArr(newArray, newId, current.next);
-//
-//                    current = current.next;
-//                }
-//            }
-//        }
-//        return newArray;
-//    }
-
 
     private Entry[] transfer(int newLength) {
         Entry[] newArray = new Entry[newLength];
@@ -190,43 +166,57 @@ public class MyHashMap<K,V> {
             currentN.next = makeCopy(e);
         }
     }
-
+    
 
     public void remove(K key) {
-        for(int i = 0; i < array.length; i++) {
-            Entry e = array[i];
-            if(e != null) {
-                if(e.key == null) {
-                    nullEntry(e);
-                } else {
-                    if (e.key.equals(key) && e.next == null) {
-                        nullEntry(e);
-                    } else if (e.key.equals(key) && e.next != null) {
-                        Entry forRemove = e;
-                        e = e.next;
-                        nullEntry(forRemove);
-                    } else if (e.next != null) {
-                        Entry current = e;
-                        while (current.next != null) {
-                            if (current.key.equals(key)) {
-                                nullEntry(current);
+        boolean wasDeleted = false;
+        if (key == null) {
+            array[0] = null;
+            size--;
+        } else {
+            int hash = hash(key.hashCode());
+            int id = countId(hash, array.length);
+            if (id < array.length) {
+                if (array[id].key.equals(key)) {
+                    if (array[id].next == null) {
+                        array[id] = null;
+                    } else {
+                        Entry nextE = array[id].next;
+                        array[id] = nextE;
+                    }
+                    size--;
+
+                } else if (array[id].next != null) {
+                    Entry current = array[id];
+                    int i = 0;
+                    while (current != null) {
+
+                        if (current.key.equals(key)) {
+                            Entry deletedNext = current.next;
+                            Entry deletedPrev = array[id];
+
+                            for (int j = 0; j < i; j++) {
+                                if (j == (i - 1)) {
+                                    deletedPrev.next = deletedNext;
+                                }
+                                deletedPrev = deletedPrev.next;
                             }
-                            current = current.next;
+
+                            current = null;
+                            size--;
+                            break;
                         }
+
+                        current = current.next;
+                        i++;
                     }
                 }
+            } else {
+                throw new NotExistedKeyExeption(key + " does not exist");
             }
         }
     }
 
-
-    private void nullEntry(Entry e) {
-        e.hash = 0;    /// just e=null
-        e.key = null;
-        e.next = null;
-        e.value = null;
-        e = null;
-    }
 
 }
 
