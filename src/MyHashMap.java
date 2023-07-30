@@ -1,4 +1,6 @@
-public class MyHashMap<K,V> {
+import java.util.Iterator;
+
+public class MyHashMap<K,V> implements Iterable<MyHashMap.Entry<K, V>> {
     private final int START_CAPACITY = 10;
     private Entry[] array;
     private int size = 0;
@@ -19,7 +21,50 @@ public class MyHashMap<K,V> {
     public MyHashMap() {
         array = new Entry[START_CAPACITY];
     }
-    
+
+
+    public Iterator<Entry<K, V>> iterator() {
+        return new MyHashMap.MyIterator();
+    }
+
+
+    private class MyIterator implements Iterator<Entry<K, V>> {
+        private int i = 0;
+        private int arrayId = 0;
+        private boolean wasShown = false;
+        private Entry<K, V> current = array[arrayId];
+
+        @Override
+        public boolean hasNext() {
+            return i < size;
+        }
+
+        @Override
+        public Entry<K, V> next() {
+            for(int j = arrayId; j < array.length; j++) {
+                if(array[j] != null) {
+                    if(wasShown == false) {
+                        i++;
+                        if(array[j].next != null) {
+                            wasShown = true;
+                            current = array[j];
+                        } else {
+                            arrayId++;
+                            wasShown = false;
+                        }
+                        return array[j];
+                    } else {
+                        current = current.next;
+                        i++;
+                        return current;
+                    }
+                }
+            }
+            throw new NotExistedIdException("Something went wrong");
+        }
+
+    }
+
 
     public void put(K key, V value) {
         if (size > countThreshold()) {

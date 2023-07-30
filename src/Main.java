@@ -82,38 +82,44 @@ public class Main {
 //        arr.printAll();
 //    }
 
-    public static void main(String[] args) {
-
-        MyHashMap<String, String> hashmap = new MyHashMap<String, String>();
-        hashmap.put("2", "22");//
-        hashmap.put(null, "20");//
-        hashmap.put("7", "1");//
-        hashmap.put("8", "3");
-        hashmap.put("9", "22");
-        hashmap.put("10", "20");//
-        hashmap.put("15", "21");
-        hashmap.put("1", "20");
-        hashmap.put("5", "20");
-
-
-       // hashmap.remove(null);
-        // hashmap.remove("8");
-
-
+//    private void hashMapTest() {
+//        MyHashMap<String, String> hashmap = new MyHashMap<String, String>();
+//        hashmap.put("2", "22");
+//        hashmap.put(null, "20");
+//        hashmap.put("7", "1");
+//        hashmap.put("8", "3");
+//        hashmap.put("9", "22");
+//        hashmap.put("10", "20");
+//        hashmap.put("15", "21");
+//        hashmap.put("1", "20");
+//        hashmap.put("5", "20");
+//
+//        Iterator<MyHashMap.Entry<String, String>> iterator = hashmap.entrySet().iterator();
+//
+//        while (iterator.hasNext()) {
+//            System.out.println(iterator.next());
+//        }
+//
+//
+//        hashmap.remove(null);
+//        hashmap.remove("8");
+//
+//
 //        hashmap.put("10", "100");
 //        hashmap.put("5", "20");
 //
 //        System.out.println(hashmap.get("1"));
 //        System.out.println(hashmap.get("10"));
 //        System.out.println(hashmap.get(null));
-
+//
 //        hashmap.remove("15");
 //        hashmap.remove("6");
 //        hashmap.remove(null);
+//    }
 
 
-
-
+    public static void main(String[] args) {
+        
 
 
     }
