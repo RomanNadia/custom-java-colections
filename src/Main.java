@@ -85,27 +85,26 @@ public class Main {
     public static void main(String[] args) {
 
         MyHashMap<String, String> hashmap = new MyHashMap<String, String>();
-        hashmap.put("6", "1");//
-        System.out.println(hashmap.get("6"));
-        hashmap.put("6", "3");//
-        System.out.println(hashmap.get("6"));
-
-        hashmap.put("2", "22"); //
+        hashmap.put("2", "22");//
         hashmap.put(null, "20");//
         hashmap.put("7", "1");//
         hashmap.put("8", "3");
-        hashmap.put("9", "22");//
+        hashmap.put("9", "22");
         hashmap.put("10", "20");//
-        hashmap.put("15", "21");//
+        hashmap.put("15", "21");
         hashmap.put("1", "20");
+        hashmap.put("5", "20");
+
+        hashmap.put("10", "100");
+        hashmap.put("5", "20");
 
         System.out.println(hashmap.get("15"));
         System.out.println(hashmap.get("6"));
         System.out.println(hashmap.get(null));
 
-        hashmap.remove("15");
-        hashmap.remove("6");
-        hashmap.remove(null);
+//        hashmap.remove("15");
+//        hashmap.remove("6");
+//        hashmap.remove(null);
 
 
 

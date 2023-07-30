@@ -34,11 +34,17 @@ public class MyHashMap<K,V> {
                 if (array[id] == null) {
                     array[id] = new Entry(hash, key, value);
                     size++;
+                } else if(array[id].key.equals(key)) {
+                    Entry nextE = array[id].next;
+                    array[id] = new Entry(hash, key, value);
+                    array[id].next = nextE;
                 } else {
                     Entry current = array[id];
                     boolean rewriteValue = false;
+                    
                     while (current.next != null) {
                         if (current.key.equals(key)) {
+
                             current = new Entry(hash, key, value);
                             rewriteValue = true;
                         }
@@ -106,12 +112,37 @@ public class MyHashMap<K,V> {
     }
 
 
+//    private Entry[] transfer(int newLength) {
+//        Entry[] newArray = new Entry[newLength];
+//        for (Entry e : array) {
+//            if (e != null) {
+//                if (e.key == null) {
+//                    newArray[0] = e;
+//                } else {
+//                    int newId = countId(e.hash, newLength);
+//
+//                    rewriteValueInNewArr(newArray, newId, e);
+//                }
+//                Entry current = e;
+//                while (current.next != null) {
+//                    int newId = countId(current.next.hash, newLength);
+//
+//                    rewriteValueInNewArr(newArray, newId, current.next);
+//
+//                    current = current.next;
+//                }
+//            }
+//        }
+//        return newArray;
+//    }
+
+
     private Entry[] transfer(int newLength) {
         Entry[] newArray = new Entry[newLength];
         for (Entry e : array) {
             if (e != null) {
                 if (e.key == null) {
-                    newArray[0] = e;
+                    newArray[0] = makeCopy(e);
                 } else {
                     int newId = countId(e.hash, newLength);
 
@@ -131,17 +162,20 @@ public class MyHashMap<K,V> {
     }
 
 
+    private Entry makeCopy(Entry e) {
+        return new Entry(e.hash, e.key, e.value);
+    }
+
+
     private void rewriteValueInNewArr(Entry[] newArray, int newId, Entry e) {
         if (newArray[newId] == null) {
-            newArray[newId] = e;
-            newArray[newId].next = null;
+            newArray[newId] = makeCopy(e);
         } else {
             Entry currentN = newArray[newId];
             while (currentN.next != null) {
                 currentN = currentN.next;
             }
-            currentN.next = e;
-            currentN.next.next = null;
+            currentN.next = makeCopy(e);
         }
     }
 
