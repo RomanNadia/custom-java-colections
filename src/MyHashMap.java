@@ -73,7 +73,7 @@ public class MyHashMap<K,V> {
             }
         }
     }
-
+    
 
     public V get(K key) {
         if (key == null) {
@@ -86,7 +86,7 @@ public class MyHashMap<K,V> {
                     return (V) array[id].value;
                 } else if (array[id].next != null) {
                     Entry current = array[id];
-                    while (current.next != null) {
+                    while (current != null) {
                         if (current.key.equals(key)) {
                             return (V) current.value;
                         }
@@ -94,8 +94,9 @@ public class MyHashMap<K,V> {
                     }
                 }
                 throw new NotExistedKeyExeption(key + " does not exist");
+            } else {
+                throw new NotExistedKeyExeption(key + " does not exist");
             }
-            throw new NotExistedKeyExeption(key + " does not exist");
         }
     }
 
@@ -166,7 +167,7 @@ public class MyHashMap<K,V> {
             currentN.next = makeCopy(e);
         }
     }
-    
+
 
     public void remove(K key) {
         boolean wasDeleted = false;
