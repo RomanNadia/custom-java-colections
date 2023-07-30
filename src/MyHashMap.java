@@ -19,6 +19,7 @@ public class MyHashMap<K,V> {
     public MyHashMap() {
         array = new Entry[START_CAPACITY];
     }
+    
 
     public void put(K key, V value) {
         if (size > countThreshold()) {
@@ -41,29 +42,19 @@ public class MyHashMap<K,V> {
                 } else {
                     Entry current = array[id];
                     boolean rewriteValue = false;
-                    int i = 0;
-                    while (current.next != null) {
+                    while (current != null) {
                         if (current.key.equals(key)) {
-                            Entry nextE = current.next;
-                            current = new Entry(hash, key, value);
-                            current.next = nextE;
-
-                            Entry currentN = array[id];
-                            for(int j = 0; j < i; j++) {
-                                if(j == (i - 1)) {
-                                    currentN.next = current;
-                                }
-                                currentN = currentN.next;
-                                j++;
-                            }
-
+                            current.value = value;
                             rewriteValue = true;
                         }
                         current = current.next;
-                        i++;
                     }
 
                     if (rewriteValue == false) {
+                        current = array[id];
+                        while (current.next != null) {
+                            current = current.next;
+                        }
                         current.next = new Entry(hash, key, value);
                         size++;
                     }
@@ -73,7 +64,7 @@ public class MyHashMap<K,V> {
             }
         }
     }
-    
+
 
     public V get(K key) {
         if (key == null) {
