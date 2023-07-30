@@ -95,11 +95,11 @@ public class Main {
         hashmap.put("1", "20");
         hashmap.put("5", "20");
 
-        hashmap.put("10", "100");
-        hashmap.put("5", "20");
+//        hashmap.put("1", "100");
+//        hashmap.put("5", "20");
 
         System.out.println(hashmap.get("15"));
-        System.out.println(hashmap.get("6"));
+        System.out.println(hashmap.get("1"));
         System.out.println(hashmap.get(null));
 
 //        hashmap.remove("15");

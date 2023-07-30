@@ -41,14 +41,26 @@ public class MyHashMap<K,V> {
                 } else {
                     Entry current = array[id];
                     boolean rewriteValue = false;
-                    
+                    int i = 0;
                     while (current.next != null) {
                         if (current.key.equals(key)) {
-
+                            Entry nextE = current.next;
                             current = new Entry(hash, key, value);
+                            current.next = nextE;
+
+                            Entry currentN = array[id];
+                            for(int j = 0; j < i; j++) {
+                                if(j == i - 1) {
+                                    currentN.next = current;
+                                }
+                                currentN = currentN.next;
+                                j++;
+                            }
+
                             rewriteValue = true;
                         }
                         current = current.next;
+                        i++;
                     }
 
                     if (rewriteValue == false) {
