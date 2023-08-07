@@ -49,6 +49,11 @@ public class MyLinkedList<E> implements Iterable<E> {
         }
     }
 
+
+    public int getSize() {
+        return size;
+    }
+
     public void add(E odject) {
         if(size == 0) {
             Entry<E> newEntry = new Entry<>(odject);
@@ -64,12 +69,17 @@ public class MyLinkedList<E> implements Iterable<E> {
 
 
     public void add(int id, E odject) {
-        if(id > size || id <= 0) {
+        if(id > size + 1 || id <= 0) {
             throw new NotExistedIdException(id + " does not exist");
         } else if(id == 1) {
             Entry<E> newEntry = new Entry<>(odject, first);
             first.prev = newEntry;
             first = newEntry;
+            size++;
+        } else if(id == size + 1) {
+            Entry<E> newEntry = new Entry<>(last, odject);
+            last.next = newEntry;
+            last = newEntry;
             size++;
         } else {
             Entry<E> newEntry = new Entry<>(odject);
@@ -184,6 +194,17 @@ public class MyLinkedList<E> implements Iterable<E> {
                 current = current.next;
             //}
         }
+    }
+
+
+    public E[] convertToArray() {
+        E[] newArray = (E[]) new Object[size];
+        Entry<E> current = first;
+        for(int i = 0; i < size; i++) {
+            newArray[i] = current.element;
+            current = current.next;
+        }
+        return newArray;
     }
 
 }

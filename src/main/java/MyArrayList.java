@@ -80,7 +80,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
 
     public void replace(int id, E object) {
-        if(id < arraySize || id < 0) {
+        if(id < arraySize && id >= 0) {
             array[id] = object;
         } else {
             throw new NotExistedIdException("Id " + id + " does not exist!");
@@ -89,7 +89,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
 
     public E get(int id) {
-        if(id < arraySize || id < 0) {
+        if(id < arraySize && id >= 0) {
             return array[id];
         } else {
             throw new NotExistedIdException("Id " + id + " does not exist!");
@@ -108,7 +108,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
 
     public void remove(int id) {
-        if(id < arraySize || id < 0) {
+        if(id < arraySize && id >= 0) {
             for(int i = id; i < arraySize; i++) {
                 array[i] = array[i + 1];
             }
@@ -121,7 +121,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
     public void remove(E object) {
         int id = searchObject(object);
-        if(id < arraySize) {
+        if(id < arraySize && id >= 0) {
             for(int i = id; i < arraySize; i++) {
                 array[i] = array[i + 1];
             }

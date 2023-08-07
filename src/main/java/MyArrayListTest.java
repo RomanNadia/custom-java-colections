@@ -1,7 +1,8 @@
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MyArrayListTest {
+public class MyArrayListTest {
 
     @Test
     public void AddWithoutResize() {
@@ -116,13 +117,22 @@ class MyArrayListTest {
     }
 
 
-//    @Test(expected = NotExistedIdException.class)
-//    public void addNegativId() {
-//        MyArrayList<String> arr = new MyArrayList<>();
-//
-//        arr.add(-1,"0");
-//
-//    }
+    @Test(expected = NotExistedIdException.class)
+    public void addNegativId() {
+        MyArrayList<String> arr = new MyArrayList<>();
+
+        arr.add(-1, "22");
+    }
+
+
+    @Test(expected = NotExistedIdException.class)
+    public void addOutBoudId() {
+        MyArrayList<String> arr = new MyArrayList<>();
+        arr.add("1");
+        arr.add("2");
+
+        arr.add(4, "22");
+    }
 
 
     @Test
@@ -173,6 +183,26 @@ class MyArrayListTest {
         String actualValue = arr.get(2);
 
         assertEquals("3", actualValue);
+    }
+
+
+    @Test(expected = NotExistedIdException.class)
+    public void getNegativId() {
+        MyArrayList<String> arr = new MyArrayList<>();
+        arr.add("1");
+        arr.add("2");
+
+        arr.get(-1);
+    }
+
+
+    @Test(expected = NotExistedIdException.class)
+    public void getOutBoudId() {
+        MyArrayList<String> arr = new MyArrayList<>();
+        arr.add("1");
+        arr.add("2");
+
+        arr.get(2);
     }
 
 
@@ -233,6 +263,26 @@ class MyArrayListTest {
 
         assertArrayEquals(expectedArr, actualArray);
         assertEquals(4, arr.getArraySize());
+    }
+
+
+    @Test(expected = NotExistedIdException.class)
+    public void replaceNegativId() {
+        MyArrayList<String> arr = new MyArrayList<>();
+        arr.add("1");
+        arr.add("2");
+
+        arr.replace(-1, "22");
+    }
+
+
+    @Test(expected = NotExistedIdException.class)
+    public void replaceOutBoudId() {
+        MyArrayList<String> arr = new MyArrayList<>();
+        arr.add("1");
+        arr.add("2");
+
+        arr.replace(2, "22");
     }
 
 
@@ -313,5 +363,36 @@ class MyArrayListTest {
         assertArrayEquals(expectedArr, actualArray);
         assertEquals(3, arr.getArraySize());
     }
+
+
+    @Test(expected = NotExistedIdException.class)
+    public void removeNegativId() {
+        MyArrayList<String> arr = new MyArrayList<>();
+        arr.add("1");
+        arr.add("2");
+
+        arr.remove(-1);
+    }
+
+
+    @Test(expected = NotExistedIdException.class)
+    public void removeOutBoudId() {
+        MyArrayList<String> arr = new MyArrayList<>();
+        arr.add("1");
+        arr.add("2");
+
+        arr.remove(2);
+    }
+
+
+    @Test(expected = NotExistedValueException.class)
+    public void removeNotExistedObject() {
+        MyArrayList<String> arr = new MyArrayList<>();
+        arr.add("1");
+        arr.add("2");
+
+        arr.remove("3");
+    }
+
 
 }
