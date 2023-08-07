@@ -1,20 +1,33 @@
+
 import java.util.Iterator;
 
-public class MyHashMap<K,V> implements Iterable<MyHashMap.Entry<K, V>> {
+public class MyHashMap<K,V>  implements Iterable {
     private final int START_CAPACITY = 10;
     private Entry[] array;
     private int size = 0;
 
-    private static class Entry<K, V> {
-        int hash;
-        K key;
-        Entry<K, V> next = null;
-        V value;
+    public static class Entry<K, V> {
+        private int hash;
+        private K key;
+        private Entry<K, V> next = null;
+        private V value;
 
-        public Entry(int hash, K key, V value) {
+        private Entry(int hash, K key, V value) {
             this.hash = hash;
             this.key = key;
             this.value = value;
+        }
+
+        public String toString() {
+            return "Key is " + this.key + " value is " + this.value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
         }
     }
 
@@ -29,39 +42,46 @@ public class MyHashMap<K,V> implements Iterable<MyHashMap.Entry<K, V>> {
 
 
     private class MyIterator implements Iterator<Entry<K, V>> {
-        private int i = 0;
+        private int numberOfExtractedE = 0;
         private int arrayId = 0;
-        private boolean wasShown = false;
-        private Entry<K, V> current = array[arrayId];
+        private int prevArrayId = -1;
+        private Entry<K, V> prev = null;
 
         @Override
         public boolean hasNext() {
-            return i < size;
+            return numberOfExtractedE < size;
         }
+
 
         @Override
         public Entry<K, V> next() {
-            for(int j = arrayId; j < array.length; j++) {
-                if(array[j] != null) {
-                    if(wasShown == false) {
-                        i++;
-                        if(array[j].next != null) {
-                            wasShown = true;
-                            current = array[j];
+            while (arrayId < array.length) {
+                if(array[arrayId] != null) {
+                    if(prevArrayId == arrayId) {
+                        if(prev.next != null) {
+                            Entry current = prev.next;
+                            prev = prev.next;
+                            numberOfExtractedE++;
+                            prevArrayId = arrayId;
+                            return current;
                         } else {
                             arrayId++;
-                            wasShown = false;
                         }
-                        return array[j];
                     } else {
-                        current = current.next;
-                        i++;
+                        prev = array[arrayId];
+                        numberOfExtractedE++;
+                        Entry current = prev;
+                        prevArrayId = arrayId;
                         return current;
                     }
+
+                } else {
+                    arrayId++;
                 }
             }
             throw new NotExistedIdException("Something went wrong");
         }
+
 
     }
 
@@ -112,12 +132,12 @@ public class MyHashMap<K,V> implements Iterable<MyHashMap.Entry<K, V>> {
 
 
     public V get(K key) {
-        if (key == null) {
+        if (key == null && array[0] != null) {
             return (V) array[0].value;
         } else {
             int hash = hash(key.hashCode());
             int id = countId(hash, array.length);
-            if (id < array.length) {
+            if (id < array.length && array[id] != null) {
                 if (array[id].key.equals(key)) {
                     return (V) array[id].value;
                 } else if (array[id].next != null) {
@@ -206,7 +226,6 @@ public class MyHashMap<K,V> implements Iterable<MyHashMap.Entry<K, V>> {
 
 
     public void remove(K key) {
-        boolean wasDeleted = false;
         if (key == null) {
             array[0] = null;
             size--;
@@ -225,27 +244,23 @@ public class MyHashMap<K,V> implements Iterable<MyHashMap.Entry<K, V>> {
 
                 } else if (array[id].next != null) {
                     Entry current = array[id];
-                    int i = 0;
+                    Entry deletedPrev = array[id];
+
                     while (current != null) {
+
+                        current = current.next;
 
                         if (current.key.equals(key)) {
                             Entry deletedNext = current.next;
-                            Entry deletedPrev = array[id];
-
-                            for (int j = 0; j < i; j++) {
-                                if (j == (i - 1)) {
-                                    deletedPrev.next = deletedNext;
-                                }
-                                deletedPrev = deletedPrev.next;
-                            }
+                            deletedPrev.next = deletedNext;
 
                             current = null;
                             size--;
                             break;
                         }
 
-                        current = current.next;
-                        i++;
+                        deletedPrev = deletedPrev.next;
+
                     }
                 }
             } else {
@@ -253,6 +268,7 @@ public class MyHashMap<K,V> implements Iterable<MyHashMap.Entry<K, V>> {
             }
         }
     }
+
 
 
 }

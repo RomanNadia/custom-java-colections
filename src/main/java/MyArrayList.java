@@ -1,3 +1,4 @@
+
 import java.util.Iterator;
 
 public class MyArrayList<E> implements Iterable<E> {
@@ -27,13 +28,23 @@ public class MyArrayList<E> implements Iterable<E> {
         }
     }
 
+
+    public int getArraySize() {
+        return arraySize;
+    }
+
+
+    public int getArrayLength() {
+        return array.length;
+    }
+
+
     public void add(E object) {
         int capacity = array.length;
         if(arraySize + 1 > capacity) {
-            int oldCapacity = capacity;
-            rewriteCapacity();
-            E[] newArray = (E[]) new Object[capacity];
-            System.arraycopy(array, 0, newArray, 0, oldCapacity);
+            int newCapacity = rewriteCapacity();
+            E[] newArray = (E[]) new Object[newCapacity];
+            System.arraycopy(array, 0, newArray, 0, capacity);
             array = newArray;
         }
         array[arraySize] = object;
@@ -42,21 +53,24 @@ public class MyArrayList<E> implements Iterable<E> {
 
 
     public void add(int id, E object) {
-        int capacity = array.length;
-        if(arraySize + 1 > capacity) {
-            capacity = rewriteCapacity();
-            E[] newArray = (E[]) new Object[capacity];
-            System.arraycopy(array, 0, newArray, 0, id);
-            newArray[id] = object;
-            System.arraycopy(array, id, newArray, id + 1, arraySize - id);
-            array = newArray;
-        } else {
-            for(int i = arraySize; i >= id; i--) {
-                array[i] = array[i + 1];
+        if(id <= arraySize + 1 && id >= 0){
+            if (arraySize + 1 > array.length) {
+                int newCapacity = rewriteCapacity();
+                E[] newArray = (E[]) new Object[newCapacity];
+                System.arraycopy(array, 0, newArray, 0, id);
+                newArray[id] = object;
+                System.arraycopy(array, id, newArray, id + 1, arraySize - id);
+                array = newArray;
+            } else {
+                for (int i = arraySize; i > id; i--) {
+                    array[i] = array[i - 1];
+                }
+                array[id] = object;
             }
-            array[id] = object;
+            arraySize++;
+        } else {
+            throw new NotExistedIdException();
         }
-        arraySize++;
     }
 
 
@@ -66,7 +80,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
 
     public void replace(int id, E object) {
-        if(id < arraySize) {
+        if(id < arraySize || id < 0) {
             array[id] = object;
         } else {
             throw new NotExistedIdException("Id " + id + " does not exist!");
@@ -75,7 +89,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
 
     public E get(int id) {
-        if(id < arraySize) {
+        if(id < arraySize || id < 0) {
             return array[id];
         } else {
             throw new NotExistedIdException("Id " + id + " does not exist!");
@@ -83,13 +97,18 @@ public class MyArrayList<E> implements Iterable<E> {
     }
 
 
-    public E[] getAll() {
-        return array;
+
+    public E[] convertToArray() {
+        E[] newArray = (E[]) new Object[arraySize];
+        for(int i = 0; i < arraySize; i++) {
+            newArray[i] = array[i];
+        }
+        return newArray;
     }
 
 
     public void remove(int id) {
-        if(id < arraySize) {
+        if(id < arraySize || id < 0) {
             for(int i = id; i < arraySize; i++) {
                 array[i] = array[i + 1];
             }
