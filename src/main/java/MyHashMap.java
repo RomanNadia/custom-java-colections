@@ -233,35 +233,39 @@ public class MyHashMap<K,V>  implements Iterable {
             int hash = hash(key.hashCode());
             int id = countId(hash, array.length);
             if (id < array.length) {
-                if (array[id].key.equals(key)) {
-                    if (array[id].next == null) {
-                        array[id] = null;
-                    } else {
-                        Entry nextE = array[id].next;
-                        array[id] = nextE;
-                    }
-                    size--;
-
-                } else if (array[id].next != null) {
-                    Entry current = array[id];
-                    Entry deletedPrev = array[id];
-
-                    while (current != null) {
-
-                        current = current.next;
-
-                        if (current.key.equals(key)) {
-                            Entry deletedNext = current.next;
-                            deletedPrev.next = deletedNext;
-
-                            current = null;
-                            size--;
-                            break;
+                if (array[id] != null) {
+                    if (array[id].key.equals(key)) {
+                        if (array[id].next == null) {
+                            array[id] = null;
+                        } else {
+                            Entry nextE = array[id].next;
+                            array[id] = nextE;
                         }
+                        size--;
 
-                        deletedPrev = deletedPrev.next;
+                    } else if (array[id].next != null) {
+                        Entry current = array[id];
+                        Entry deletedPrev = array[id];
 
+                        while (current != null) {
+
+                            current = current.next;
+
+                            if (current.key.equals(key)) {
+                                Entry deletedNext = current.next;
+                                deletedPrev.next = deletedNext;
+
+                                current = null;
+                                size--;
+                                break;
+                            }
+
+                            deletedPrev = deletedPrev.next;
+
+                        }
                     }
+                } else {
+                    throw new NotExistedKeyExeption(key + " does not exist");
                 }
             } else {
                 throw new NotExistedKeyExeption(key + " does not exist");
@@ -269,6 +273,39 @@ public class MyHashMap<K,V>  implements Iterable {
         }
     }
 
+
+    public Entry[] convertToArray() {
+        Entry[] newArray = new Entry[size];
+        Iterator<MyHashMap.Entry<K, V>> iterator = this.iterator();
+
+        for(int i = 0; iterator.hasNext(); i++) {
+            newArray[i] = iterator.next();
+        }
+        return newArray;
+    }
+
+    public K[] convertKeyToArray() {
+        Entry[] newArray = this.convertToArray();
+        K[] keyArray = (K[]) new Object[size];
+
+        for(int i = 0; i < newArray.length; i++) {
+            keyArray[i] = (K) newArray[i].key;
+        }
+
+        return keyArray;
+    }
+
+
+    public V[] convertValueToArray() {
+        Entry[] newArray = this.convertToArray();
+        V[] valueArray = (V[]) new Object[size];
+
+        for(int i = 0; i < newArray.length; i++) {
+            valueArray[i] = (V) newArray[i].value;
+        }
+
+        return valueArray;
+    }
 
 
 }

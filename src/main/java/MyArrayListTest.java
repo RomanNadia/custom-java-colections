@@ -73,12 +73,11 @@ public class MyArrayListTest {
         Object[] actualArray = arr.convertToArray();
 
         assertArrayEquals(expectedArr, actualArray);
-        assertEquals(5, arr.getArraySize());
     }
 
 
     @Test
-    public void addIdlast() {
+    public void addIdLast() {
         String[] expectedArr = {"1", "2", "3", "4", "0"};
 
         MyArrayList<String> arr = new MyArrayList<>();
@@ -93,7 +92,6 @@ public class MyArrayListTest {
         Object[] actualArray = arr.convertToArray();
 
         assertArrayEquals(expectedArr, actualArray);
-        assertEquals(5, arr.getArraySize());
     }
 
 
@@ -113,7 +111,6 @@ public class MyArrayListTest {
         Object[] actualArray = arr.convertToArray();
 
         assertArrayEquals(expectedArr, actualArray);
-        assertEquals(5, arr.getArraySize());
     }
 
 
@@ -137,7 +134,6 @@ public class MyArrayListTest {
 
     @Test
     public void getId0() {
-        String[] expectedArr = {"1", "2", "3", "4"};
 
         MyArrayList<String> arr = new MyArrayList<>();
 

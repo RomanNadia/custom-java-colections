@@ -100,9 +100,7 @@ public class MyArrayList<E> implements Iterable<E> {
 
     public E[] convertToArray() {
         E[] newArray = (E[]) new Object[arraySize];
-        for(int i = 0; i < arraySize; i++) {
-            newArray[i] = array[i];
-        }
+        System.arraycopy(array, 0, newArray, 0, arraySize);
         return newArray;
     }
 
