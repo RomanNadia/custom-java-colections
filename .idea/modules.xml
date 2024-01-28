@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Colections.iml" filepath="$PROJECT_DIR$/Colections.iml" />
+      <module fileurl="file://$PROJECT_DIR$/custom-java-colections.iml" filepath="$PROJECT_DIR$/custom-java-colections.iml" />
     </modules>
   </component>
 </project>

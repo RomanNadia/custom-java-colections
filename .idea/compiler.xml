@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Colections" />
+        <module name="custom-java-colections" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Colections" target="14" />
+      <module name="custom-java-colections" target="14" />
     </bytecodeTargetLevel>
   </component>
 </project>
